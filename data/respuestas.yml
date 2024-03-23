@@ -2,4 +2,8 @@ categories:
 - respuestas
 conversations:
 - - hola
-  - Hola, soy un chatbot
+  - Hola, soy un chatbot y estoy para ayudarte.
+  - necesito ayuda
+  - En que puedo ayudarte?
+- - necesito ayuda
+  - En que puedo ayudarte?
