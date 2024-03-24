@@ -3,7 +3,7 @@ categories:
 conversations:
 - - hola
   - Hola, soy un chatbot y estoy para asistirte.
-  - necesito ayuda
+- - necesito ayuda
   - En que puedo ayudarte?
 - - necesito asistencia
   - En que puedo ayudarte?
@@ -11,5 +11,9 @@ conversations:
   - En que puedo ayudarte?
 - - necesito hacer una pregunta
   - En que puedo ayudarte?
+- - en nada
+  - Ingrese salir si quiere terminar la conversacion
 - - tengo un problema con mi cuenta
   - Digame el numero de cuenta
+- - gracias
+  - En que puedo ayudarte?
