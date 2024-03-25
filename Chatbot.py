@@ -8,18 +8,19 @@ bot = ChatBot(
 
 trainer = ChatterBotCorpusTrainer(bot)
 
+trainer.train("chatterbot.corpus.spanish")
 trainer.train('./data')
+
+# Mensaje de bienvenida
+print("Bot: ¡Bienvenido al Chatbot del Banco!")
 
 while True:
     try:
-        entrada= input()
+        entrada = input('Tú: ')
         if(entrada=="salir"):
             break
-        
-        else:
-            bot_input = bot.get_response(entrada)
-            print(bot_input)
-        
+        bot_input = bot.get_response(pedido)
+        print("Bot: ", bot_input)
 
     except(KeyboardInterrupt, EOFError, SystemExit):
         break
