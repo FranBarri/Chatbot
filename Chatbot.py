@@ -1,6 +1,7 @@
 from chatterbot import ChatBot
 from chatterbot.trainers import ChatterBotCorpusTrainer
 
+
 bot = ChatBot(
     "Chatbot bancario"
 )
@@ -15,7 +16,9 @@ print("Bot: ¡Bienvenido al Chatbot del Banco!")
 
 while True:
     try:
-        pedido = input('Tú: ')
+        entrada = input('Tú: ')
+        if(entrada=="salir"):
+            break
         bot_input = bot.get_response(pedido)
         print("Bot: ", bot_input)
 
