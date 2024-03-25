@@ -19,7 +19,7 @@ while True:
         entrada = input('Tú: ')
         if(entrada=="salir"):
             break
-        bot_input = bot.get_response(pedido)
+        bot_input = bot.get_response(entrada)
         print("Bot: ", bot_input)
 
     except(KeyboardInterrupt, EOFError, SystemExit):
