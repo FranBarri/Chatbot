@@ -15,5 +15,5 @@ six==1.16.0
 SQLAlchemy==1.2.19
 tqdm==4.66.2
 typing_extensions==4.10.0
-opencv-python=4.9.0.80
+opencv-python==4.9.0.80
 pillow==10.2.0
