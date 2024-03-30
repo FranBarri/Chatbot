@@ -1,41 +1,55 @@
 import cv2
 import os
 
-# Cargar la imagen de la huella de muestra
-sample_path = "Huellas/1__M_Left_index_finger.BMP"
-sample = cv2.imread(sample_path)
+sample = cv2.imread("Huellas/1__M_Left_index_finger.BMP")
 
-# Inicializar variables
+#Inicializo variables
 best_score = 0
 filename = None
+image = None
+kp1, kp2, mp = None, None, None
 
-# Obtener el tamaño de la imagen de muestra
-sample_height, sample_width, _ = sample.shape
+#Cargo todas las imagenes del dataset
+counter = 0
+for file in [file for file in os.listdir("Huellas")]:
+    #Ver por cual imagen va
+    if counter % 10 == 0:
+        print(counter)
+        print(file)
+    counter += 1
 
-# Recorrer todas las imágenes en la carpeta "Huellas"
-for file in os.listdir("Huellas"):
-    # Construir la ruta completa del archivo
-    filepath = "Huellas/" + file
-    
-    # Verificar si el archivo es una imagen
-    if os.path.isfile(filepath) and filepath.lower().endswith(('.bmp', '.jpg', '.jpeg', '.png')):
-        # Cargar la imagen del conjunto de datos
-        fingerprint_image = cv2.imread(filepath)
-        
-        # Redimensionar la imagen del conjunto de datos para que tenga el mismo tamaño que la imagen de muestra
-        fingerprint_image_resized = cv2.resize(fingerprint_image, (sample_width, sample_height))
-        
-        # Comparar las imágenes byte a byte
-        diff = cv2.compare(sample, fingerprint_image_resized, cv2.CMP_NE)
+    fingerprint_image = cv2.imread("Huellas/" + file)
+    sift = cv2.SIFT_create()
 
-        # Verificar si la matriz de diferencias está vacía
-        if not diff.any():
-            # Las imágenes son idénticas
-            filename = file
-            break
+    keypoints_1, descriptors_1 = sift.detectAndCompute(sample, None)
+    keypoints_2, descriptors_2 = sift.detectAndCompute(fingerprint_image, None)
 
-# Imprimir el resultado
-if filename is not None:
-    print("La huella de muestra coincide con la huella:", filename)
-else:
-    print("No se encontraron coincidencias en las huellas.")
+    matches = cv2.FlannBasedMatcher({'algorithm': 1, 'trees': 10},
+                                    {}).knnMatch(descriptors_1, descriptors_2, k=2)
+    match_points = []
+
+    for p, q in matches: 
+        if p.distance < 0.1 * q.distance:
+            match_points.append(p)
+
+    keypoints = 0
+    if len(keypoints_1) < len(keypoints_2):
+        keypoints = len(keypoints_1)
+    else:
+        keypoints = len(keypoints_2)
+
+    if len(match_points) / keypoints * 100 > best_score:
+        best_score = len(match_points) / keypoints * 100
+        filename = file
+        image = fingerprint_image
+        kp1, kp2, mp = keypoints_1, keypoints_2, match_points
+
+
+print("BEST MATCH: " + filename)
+print("SCORE: " + str(best_score))
+
+result = cv2.drawMatches(sample, kp1, image, kp2, mp, None)
+result = cv2.resize(result, None, fx=4 , fy=4)
+cv2.imshow("Result", result)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
