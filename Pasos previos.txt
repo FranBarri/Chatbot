@@ -1,0 +1,4 @@
+Pasos a seguir para el correcto funcionamiento del chatbot:
+- Ejecutar en la terminal el siguiente comando: "pip install -r requirements.txt"
+- Abrir el archivo ubicado en <Python-folder>\Lib\site-packages\sqlalchemy\util\compat.py y cambiar la linea 264 de "time_func = time.clock" a "pass"
+- Abrir el archivo ubicado en <Python-folder>\Lib\site-packages\chatterbot\corpus.py y cambiar la linea 38 de "yaml.load(data_file)" a "yaml.safe_load(data_file)"
