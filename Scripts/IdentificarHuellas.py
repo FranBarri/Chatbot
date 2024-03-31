@@ -15,15 +15,23 @@ def identificar_huella(sample_path):
     best_kp2 = None
     best_mp = None
 
+    FLANN_INDEX_KDTREE = 1
+    index_params = dict(algorithm=FLANN_INDEX_KDTREE, trees=5)
+    search_params = dict(checks=50)
+    flann = cv2.FlannBasedMatcher(index_params, search_params)
+
     for file in os.listdir("Huellas"):
         fingerprint_path = os.path.join("Huellas", file)
         fingerprint_image = cv2.imread(fingerprint_path)
         kp_fingerprint, des_fingerprint = sift.detectAndCompute(fingerprint_image, None)
 
-        bf = cv2.BFMatcher()
-        matches = bf.knnMatch(des_sample, des_fingerprint, k=2)
+        matches = flann.knnMatch(des_sample, des_fingerprint, k=2)
 
-        good_matches = [m for m, n in matches if m.distance < 0.75 * n.distance]
+        good_matches = []
+        for m, n in matches:
+            if m.distance < 0.7 * n.distance:
+                good_matches.append(m)
+
         score = len(good_matches)
 
         if score > best_score:
@@ -34,7 +42,7 @@ def identificar_huella(sample_path):
             best_kp2 = kp_fingerprint
             best_mp = good_matches
 
-    if best_score < 40:
+    if best_score < 15:
         return {
             "mensaje": "Bot: No se encontró ninguna huella que coincida.",
             "resultado": None
@@ -48,12 +56,11 @@ def identificar_huella(sample_path):
         image_tk = ImageTk.PhotoImage(image)
         
         return {
-            "mensaje": "Bot: Huella identificada.\nCoincide con: {}\nPuntaje de coincidencia: {}".format(best_filename, best_score),
+            "mensaje": "Bot: Huella identificada.\nCoincide con: {}\nCoincidencias encontradas: {}".format(best_filename, best_score),
             "resultado": {
                 "image_tk": image_tk
             }
         }
-
 
 def agregar_huella(nueva_ruta, nombre_huella):
     nueva_ruta = os.path.abspath(nueva_ruta)
