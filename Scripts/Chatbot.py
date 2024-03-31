@@ -4,7 +4,8 @@ from chatterbot.trainers import ChatterBotCorpusTrainer
 def iniciar_chatbot():
     bot = ChatBot("Chatbot bancario")
     trainer = ChatterBotCorpusTrainer(bot)
-    trainer.train("chatterbot.corpus.spanish")
+    trainer.train("chatterbot.corpus.spanish.conversations")
+    trainer.train("chatterbot.corpus.spanish.greetings")
     trainer.train("./data")
     return bot
 
