@@ -62,12 +62,12 @@ def manejar_respuesta_si(event, nueva_ruta):
 # Función para manejar la entrada del usuario
 def manejar_entrada(event=None):
     entrada_usuario = entrada_text.get()
-    if entrada_usuario.lower() == "agregar huella":
+    if entrada_usuario.lower() == "2":
+        mostrar_mensaje("Tú: " + entrada_usuario)
         nueva_ruta = filedialog.askopenfilename(filetypes=[("Bitmap files", "*.bmp")])
         if nueva_ruta:
-            mostrar_mensaje("Tú: " + entrada_usuario)
             agregar_nueva_huella(nueva_ruta)
-    elif entrada_usuario.lower() == "identificar huella":
+    elif entrada_usuario.lower() == "1":
         mostrar_mensaje("Tú: " + entrada_usuario)
         seleccionar_archivo()
     else:
@@ -89,7 +89,7 @@ def mostrar_mensaje(mensaje):
     conversation_text.config(state="disabled") 
 
 # Mostrar mensaje de bienvenida en la interfaz
-mostrar_mensaje("Bot: ¡Bienvenido al Chatbot del Banco!\n")
+mostrar_mensaje("Bot: ¡Bienvenido al Chatbot del Banco!\nTe presentamos las siguientes opciones\nPara ingresar con identificación de huella, presione 1\nPara registrar una nueva huella, presione 2\nTambién puede realizar consultas\n")
 
 # Función para mostrar la imagen en la interfaz
 def mostrar_imagen(image_tk):
