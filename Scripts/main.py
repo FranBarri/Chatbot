@@ -69,7 +69,7 @@ def manejar_entrada(event=None):
             mostrar_mensaje("Tú: " + entrada_usuario)
             entrada_text.delete(0, tk.END)
             agregar_nueva_huella(nueva_ruta)
-    elif entrada_usuario.lower() == "identificar huella":
+    elif entrada_usuario.lower() == "1":
         entrada_text.delete(0, tk.END)
         mostrar_mensaje("Tú: " + entrada_usuario)
         seleccionar_archivo()
@@ -89,7 +89,8 @@ entrada_text.focus()
 def mostrar_mensaje(mensaje):
     conversation_text.config(state="normal")
     conversation_text.insert(tk.END, mensaje + "\n")
-    conversation_text.config(state="disabled") 
+    conversation_text.config(state="disabled")
+    conversation_text.see('end')
 
 # Mostrar mensaje de bienvenida en la interfaz
 mostrar_mensaje("Bot: ¡Bienvenido al Chatbot del Banco!\nTe presentamos las siguientes opciones\nPara ingresar con identificación de huella, presione 1\nPara registrar una nueva huella, presione 2\nTambién puede realizar consultas\n")
